@@ -1,9 +1,9 @@
-package functionalsqlonline;
+package functionalsqlonline.server;
 
+import functionalsqlonline.exceptionmappers.CustomExceptionMapper;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -11,10 +11,6 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.DelegatingFilterProxy;
-
-import javax.servlet.DispatcherType;
-import java.util.EnumSet;
 
 public class FunctionalSQLOnlineServer {
 
@@ -54,6 +50,7 @@ public class FunctionalSQLOnlineServer {
         ResourceConfig jerseyResourceConfig = new ResourceConfig();
         jerseyResourceConfig.property("contextConfig", applicationContext);
         jerseyResourceConfig.packages("functionalsqlonline");
+        jerseyResourceConfig.register(CustomExceptionMapper.class);
 
         ServletContainer jerseyContainer = new ServletContainer(jerseyResourceConfig);
         ServletHolder jerseySpringServlet = new ServletHolder("jersey-spring-servlet", jerseyContainer);
