@@ -1,0 +1,38 @@
+allprojects {
+	group = "functionalsqlonline"
+	version = "0.1"
+}
+
+subprojects { subProject ->
+	apply plugin: 'java'
+
+	sourceSets.main.java.srcDirs = ['src']
+	sourceSets.test.java.srcDirs = ['test']
+	
+	dependencies {
+		testCompile "junit:junit:4.12"
+	        compile 'com.github.wybrandvdmeer:functionalsql:e136413f0d'
+
+	}
+
+	repositories {
+		maven {
+			url "http://repo1.maven.org/maven"
+       		}
+        	maven {
+	    		url "http://central.maven.org/maven2"
+        	}
+		maven { 
+			url "https://jitpack.io" 
+		}
+	}
+
+	ext {
+		springVersion = '4.2.7.RELEASE'
+		springBatchVersion = '3.0.6.RELEASE'
+		springSecurityVersion = '4.0.4.RELEASE'
+		springSecurityOAuthVersion = '2.0.9.RELEASE'
+		springSecurityJwtVersion = '1.0.4.RELEASE'
+		springDataJpaVersion = '1.9.4.RELEASE'
+	}
+}
