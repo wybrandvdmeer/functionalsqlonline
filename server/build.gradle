@@ -1,5 +1,6 @@
 apply plugin: 'application'
 apply plugin: 'java'
+apply plugin: 'net.ltgt.apt'
 
 mainClassName = 'functionalsqlonline.Main'
 
@@ -8,13 +9,23 @@ jar {
     version =  '0.1'
 }
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.6"
+    }
+}
+
 dependencies {
+	compile 'org.glassfish.web:javax.el:2.2.6'
 
-    compile 'org.glassfish.web:javax.el:2.2.6'
-
-    compile 'org.glassfish.jersey.media:jersey-media-multipart:2.15'
-    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.15'
-    compile 'org.glassfish.jersey.ext:jersey-spring3:2.15'
+	compile 'org.glassfish.jersey.media:jersey-media-multipart:2.15'
+	compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.15'
+	compile 'org.glassfish.jersey.ext:jersey-spring3:2.15'
 
 	compile 'org.eclipse.jetty:jetty-server:9.1.2.v20140210'
 	compile 'org.eclipse.jetty:jetty-webapp:9.1.2.v20140210'
@@ -30,4 +41,10 @@ dependencies {
 	compile "org.springframework:spring-core:$springVersion"
 	compile "org.springframework:spring-context:$springVersion"
 	compile "org.springframework:spring-context-support:$springVersion"
+}
+
+run.configure {
+	if (System.getProperty("debug") != null) {
+		jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"]
+	}
 }
