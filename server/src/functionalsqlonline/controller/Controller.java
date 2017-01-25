@@ -4,10 +4,7 @@ package functionalsqlonline.controller;
 import functionalsql.FunctionalSQLCompiler;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("functionalsql")
@@ -16,8 +13,18 @@ import javax.ws.rs.core.MediaType;
 public class Controller {
     @GET
     @Path("/{functionalsql:.+}")
-    public String translate(@PathParam("functionalsql") String functionalSql) throws Exception {
-        FunctionalSQLCompiler compiler = new FunctionalSQLCompiler();
-        return compiler.parse(functionalSql);
+    public StatementContainer translate(@PathParam("functionalsql") String functionalSql) throws Exception {
+        StatementContainer statementContainer = new StatementContainer();
+        try {
+            FunctionalSQLCompiler compiler = new FunctionalSQLCompiler();
+            statementContainer.setStatement(compiler.parse(functionalSql));
+            return statementContainer;
+        } catch(Exception e) {
+            if(e.getMessage() != null) {
+                statementContainer.setError(e.getMessage());
+                return statementContainer;
+            }
+            throw e;
+        }
     }
 }

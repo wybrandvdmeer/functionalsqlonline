@@ -14,20 +14,55 @@
 	<body>
 	<div class="container">
 	<div class="page-header">
-	<h1>Functional SQL to SQL translator.</h1>
+	<h1>Functional SQL to SQL parser.</h1>
 
 	<div class="jumbotron">
-	<p>
-		<input type="text" name="functional-sql-statement" value=""/>	
-		<button type="submit" class="btn-primary btn-sm">submit</button>
-	</p>
-	</div>
+        <div>
+	        <p>Functional SQL statement:</p>
+		    <textarea id="input" rows="5" cols="100"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="btn-primary btn-sm" onclick="submit();">submit</button>
+        </div>
+    </div>
+	
 	<div class="jumbotron">
-		<textarea name="output" readonly="true" rows="10" cols="50"></textarea>
+		<p>Resulting SQL:</p>
+		<textarea id="output" readonly="true" rows="5" cols="100"></textarea>
 	</div>
 	</div>
 	</div>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"/>
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	
+	<script type="text/javascript">	
+	
+	  function submit(){
+	  	var text = document.getElementById('input').value;
+	  	submitFunctionalSQLStatement(text);
+	  }
+	  
+	  function submitFunctionalSQLStatement(functionalSqlStatement) {
+     	$.ajax({
+         type: "GET",
+         url: "http://localhost:9000/functionalsql/" + functionalSqlStatement,
+         contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         crossDomain: true,
+         dataType: "json",
+         success: function (data, status, jqXHR) {
+            if(data.error != null) {
+                document.getElementById('output').value = data.error;
+             } else {
+                document.getElementById('output').value = data.statement;
+             }
+         },
+         error: function(jqXHR, textStatus, errorThrown ) {
+            document.getElementById('output').value = 'Exception occurred';
+         }
+     	});     
+	}
+	
+	</script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	</body>
