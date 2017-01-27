@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("functionalsql")
+@Path("parse")
 @Produces(MediaType.APPLICATION_JSON)
 @Component
 public class Controller {
