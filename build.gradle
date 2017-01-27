@@ -11,7 +11,7 @@ subprojects { subProject ->
 	
 	dependencies {
 		testCompile "junit:junit:4.12"
-	        compile 'com.github.wybrandvdmeer:functionalsql:e136413f0d'
+	        compile 'com.github.wybrandvdmeer:functionalsql:b9067dd0ff'
 
 	}
 
